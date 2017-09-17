@@ -26,9 +26,10 @@ int main(int argc, char ** argv){
     //Test for function createData
     TravelData *t = NULL;
     t = createData('N', 10, 'F');
-    printTestInfo(++testNumber, "Testing the proper creation of TravelData struct.");
+    printTestInfo(++testNumber, "Testing the proper \
+                creation of TravelData struct");
     printf("Expected: %c, %d, %c \n", 'N', 10, 'F');
-    printf("Recieved: %c, %d, %c \n", t->dir, t->arrTime, t->travelDir);
+    printf("Received: %c, %d, %c \n", t->dir, t->arrTime, t->travelDir);
     testsPassed += printPassFail(t != NULL);
     free(t);
     t = NULL;
@@ -38,7 +39,7 @@ int main(int argc, char ** argv){
     Car *c = createCar(t);
     printTestInfo(++testNumber, "Testing the proper creation of struct Car");
     printf("Expected: %d\n", 1);
-    printf("Recieved: %d\n", (c != NULL));
+    printf("Received: %d\n", (c != NULL));
     testsPassed += printPassFail(c != NULL);
     free(t);
     free(c);
@@ -47,9 +48,10 @@ int main(int argc, char ** argv){
 
     //Testing proper creation of struct Traffic
     Traffic *traffic = createTraffic(destroy);
-    printTestInfo(++testNumber, "Testing the proper creation of struct Traffic");
+    printTestInfo(++testNumber, "Testing the proper \
+                creation of struct Traffic");
     printf("Expected: %d %d\n", 0, 1);
-    printf("Recieved: %d %d\n", traffic->length, traffic->head != NULL);
+    printf("Received: %d %d\n", traffic->length, traffic->head != NULL);
     testsPassed += printPassFail(traffic != NULL);
     free(traffic->head);
     free(traffic);
@@ -57,15 +59,73 @@ int main(int argc, char ** argv){
     
     //Making sure the destroy function completely destroys the list
     traffic = createTraffic(destroy);
-    printTestInfo(++testNumber, "Testing the proper destruction of the struct Traffic");
+    printTestInfo(++testNumber, "Testing the proper \
+                destruction of the struct Traffic");
     destroyTraffic(traffic);
     printf("Expected: %d\n", 0);
-    printf("Recieved: %d\n", !(traffic->head == NULL));
+    printf("Received: %d\n", !(traffic->head == NULL));
     testsPassed += printPassFail(traffic->head == NULL);
     free(traffic);
     traffic = NULL;
 
-    printf("\nNumber of Tests: %d\n", testNumber);
+    //Testing to check if element is added to the beginning of the struct
+    t = createData('E', 14, 'R');
+    c = createCar(t);
+    traffic = createTraffic(destroy);
+    printTestInfo(++testNumber, "Testing to make sure \
+                element is added to head of the list");
+    traffic->head = insertFirst(traffic->head, c);
+    printf("Expected: %d\n", 1);
+    printf("Received: %d\n", traffic->head->next != NULL);
+    testsPassed += printPassFail(traffic->head->next != NULL);
+    destroyTraffic(traffic);
+    free(traffic);
+    traffic = NULL;
+    c = NULL;
+    t = NULL;
+
+
+    //Test to delete the first element in the list
+    t = createData('N', 23, 'F');
+    c = createCar(t);
+    traffic = createTraffic(destroy);
+    traffic->head = insertFirst(traffic->head, c);
+    printTestInfo(++testNumber, "Testing to make sure the first \
+                element in the list is deleted");
+    traffic->head = deleteFirst(traffic->head);
+    printf("Expected: %d\n", 1);
+    printf("Received: %d\n", traffic->head->next == NULL && traffic->head->prev == NULL);
+    testsPassed += printPassFail(traffic->head->next == NULL && traffic->head->prev == NULL);
+    destroyTraffic(traffic);
+    free(traffic);
+    traffic = NULL;
+    t = NULL;
+    c = NULL;
+
+    //Test to make sure function returns right length
+    t = createData('S', 3, 'L');
+    c = createCar(t);
+    TravelData* t2 = createData('N', 12, 'R');
+    Car* c2 = createCar(t2);
+    traffic = createTraffic(destroy);
+    traffic->head = insertFirst(traffic->head, c);
+    traffic->head = insertFirst(traffic->head, c2);
+    printTestInfo(++testNumber, "Testing to make sure function \
+                returns the right length of the list");
+    int len = getListLength(traffic->head);
+    printf("Expected: %d\n", 3);
+    printf("Recieved: %d\n", len);
+    testsPassed += printPassFail(len == 3);
+    destroyTraffic(traffic);
+    free(traffic);
+    traffic = NULL;
+    t = NULL;
+    c = NULL;
+    t2 = NULL;
+    c2 = NULL;
+    
+
+    printf("Number of Tests: %d\n", testNumber);
     printf("Number of Tests Passed: %d\n", testsPassed);
 
     return 0;

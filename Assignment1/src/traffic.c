@@ -40,7 +40,7 @@ Car* createCar(TravelData *t){
 Traffic* createTraffic(void (* dPtr)(void *)){
     Traffic *traffic = malloc(sizeof(Traffic));
     if(traffic != NULL){
-        traffic->length = 0;
+        traffic->length = 1;
         traffic->head = createCar(NULL);
         traffic->destroyPtr = dPtr;
     }
@@ -62,16 +62,42 @@ void destroyTraffic(Traffic *t){
 }
 
 //Function to insert at head
+Car* insertFirst(Car *head, Car* c){
+    c->next = head;
+    head-> prev = c;
+    head = c;
+    return head;
+}
 
-/*
-Function to insert at head
-Function to get first element
-Function to delete first element
-Function to find length of list
-Function to get an element of the list
-Function to print a list in the required format
-Function to add to end of list*
-Function to delete end*
-Function to remove a specific node*
+//Function to delete the first element
+Car* deleteFirst(Car *head){
+    Car *temp = head->next;
+    free(head->data);
+    free(head);
+    head = temp;
+    head->prev = NULL;
+    return head;
+}
 
-*/
+//Function to find length of the Cars list
+int getListLength(Car* head){
+    int len = 0;
+    Car *cur = head;
+    while(cur != NULL){
+        len++;
+        cur = cur->next;
+    }
+    return len;
+}
+
+//Function to print a list data in required format
+void printList(Car* head){
+    Car *cur = head;
+    while(cur != NULL){
+        if(cur->data != NULL){
+            TravelData *t = (TravelData *) cur->data;
+            printf("%c\t%d\t%c\n", t->dir, t->arrTime, t->travelDir);
+        }
+        cur = cur->next;
+    }
+}

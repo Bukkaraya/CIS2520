@@ -21,3 +21,7 @@ Traffic* createTraffic(void (* dPtr)(void *));
 TravelData* createData(char dir, int arrTime, char travelDir);
 Car* createCar(TravelData *t);
 void destroyTraffic(Traffic *t);
+Car* insertFirst(Car *head, Car* c);
+Car* deleteFirst(Car *head);
+int getListLength(Car* head);
+void printList(Car* head);
