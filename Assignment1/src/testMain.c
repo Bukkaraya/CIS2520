@@ -94,8 +94,10 @@ int main(int argc, char ** argv){
                 element in the list is deleted");
     traffic->head = deleteFirst(traffic->head);
     printf("Expected: %d\n", 1);
-    printf("Received: %d\n", traffic->head->next == NULL && traffic->head->prev == NULL);
-    testsPassed += printPassFail(traffic->head->next == NULL && traffic->head->prev == NULL);
+    printf("Received: %d\n", 
+        traffic->head->next == NULL && traffic->head->prev == NULL);
+    testsPassed += printPassFail(
+        traffic->head->next == NULL && traffic->head->prev == NULL);
     destroyTraffic(traffic);
     free(traffic);
     traffic = NULL;
