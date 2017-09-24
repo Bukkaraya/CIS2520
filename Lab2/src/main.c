@@ -5,6 +5,8 @@
 #include "store.h"
 
 int main(int argc, char** argv){
+    printf("Store:\n\n");
+
     Book *b1 = createBook("Eye of the World", 8.99);
     Book *b2 = createBook("One Piece", 4.99);
     BoardGame *bg1 = createBoardGame("Monopoly", 32.50, "Hasbro");

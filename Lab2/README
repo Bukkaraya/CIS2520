@@ -1,0 +1,30 @@
+##########
+Name: Narasimha Bukkaraya
+ID: 0951030
+##########
+The store struct contains 
+1 item and function pointer that
+points to a print function related 
+to that item.
+
+Store is set to 1 item either book or boardgame
+and the details about that item is displayed using
+displayStore function. No other functions are used
+to display information.
+
+##########
+
+make and change directory to bin and run using ./main.out
+make clean - to clean object and binary files
+
+##########
+
+No optional features
+
+##########
+
+The displayStore function can display only 1 item at a time 
+and can display only a Book or a BoardGame and does 
+not work for any other item type.
+
+##########
