@@ -37,4 +37,6 @@ double getPrice(Book * b);
  **/
 void printBook(void * book);
 
+int compareBook(const void *first, const void *second);
+
 #endif

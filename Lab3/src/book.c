@@ -21,3 +21,16 @@ void printBook(void * book){
     Book *b = (Book *) book;
     printf("%s : %.3f\n", getName(b), getPrice(b) );
 }
+
+int compareBook(const void *first, const void *second){
+    Book *b1 = (Book *) first;
+    Book *b2 = (Book *) second;
+
+    if(b1->price > b2->price){
+        return 1;
+    }else if(b1->price < b2->price){
+        return -1;
+    }else{
+        return 0;
+    }
+}

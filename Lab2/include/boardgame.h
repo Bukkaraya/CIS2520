@@ -10,7 +10,7 @@ typedef struct BoardGame{
     char *brandName;
 } BoardGame;
 
-/*
+/**
  * [createStore description]
  * @param name static string of the name of the boardgame
  * @param price double
@@ -19,31 +19,31 @@ typedef struct BoardGame{
 */
 BoardGame* createBoardGame(char* name, double price, char* brandName);
 
-/*
+/**
  * Get name of board game
  * @param bg BoardGame
  * @return char* string of name
 */
 char* getBGName(BoardGame *bg);
 
-/*
+/**
  * Get price of board game
  * @param bg BoardGame
  * @return Double price
 */
 double getBGPrice(BoardGame *bg);
 
-/*
+/**
  * Get brand name of board game
  * @param bg BoardGame
  * @return char* string of brand name
 */
 char* getBrandName(BoardGame *bg);
 
-/*
+/**
  * Display the board game's name, price and brand name
- * @param bg [BoardGame]
+ * @param boardgame [BoardGame]
 */  
-void printBoardGame(void *bg);
+void printBoardGame(void *boardgame);
 
 #endif

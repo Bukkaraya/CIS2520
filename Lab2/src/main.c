@@ -5,7 +5,7 @@
 #include "store.h"
 
 int main(int argc, char** argv){
-    printf("Store:\n\n");
+    printf("Store:\n");
 
     Book *b1 = createBook("Eye of the World", 8.99);
     Book *b2 = createBook("One Piece", 4.99);
