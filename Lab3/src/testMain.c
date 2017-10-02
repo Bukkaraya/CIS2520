@@ -25,8 +25,10 @@ int printPassFail(int b){
 }
 
 void printInt(void *num){
-    int *number = (int *) num;
-    printf("%d\n", *number);
+    if(num != NULL){
+        int *number = (int *) num;
+        printf("%d\n", *number);
+    }
 }
 
 int compareInt(const void *first, const void *second){
@@ -47,13 +49,19 @@ int main(int argc, char **argv){
 
     int numTests = 0;
     int testsPassed = 0;
+    void *data = NULL;
 
     int *i1 = malloc(sizeof(int));
     *i1 = 42;
     int *i3 = malloc(sizeof(int));
     *i3 = 54;
+    int *i2 = malloc(sizeof(int));
+    *i2 = 7;
     Book *b1 = createBook("Harry Potter", 4.00);
     Book *b3 = createBook("One Piece", 4.99);
+    Book *b2 = createBook("Naruto", 7.99);
+    Book *b4 = createBook("Lord of the Rings", 24.99);
+    Book *b5 = NULL;
 
     //Test function for initializeList
     List *l1 = initializeList(printBook, deleteListNode, compareBook);
@@ -95,7 +103,109 @@ int main(int argc, char **argv){
     printf("Recieved: ");
     printForward(l2);
     testsPassed += printPassFail(l2->head != NULL);
+
+    //Test for insertBack
+    printTestInfo(++numTests, "Testing to make sure Book is added to the back of the list.");
+    printf("Expected: \nHarry Potter : 4.000\nOne Piece : 4.990\n");
+    insertBack(l1, b3);
+    printf("Recieved: \n");
+    printForward(l1);
+    testsPassed += printPassFail(l1->head->next != NULL);
+
+    printTestInfo(++numTests, "Testing to make sure int is added to the back of the list.");
+    printf("Expected: \n42 \n54\n");
+    insertBack(l2, i3);
+    printf("Recieved: \n");
+    printForward(l2);
+    testsPassed += printPassFail(l2->head->next != NULL);
+
+    //Test for insertSorted Function
+    printTestInfo(++numTests, "Testing to make sure Book is added properly to the sorted list.");
+    printf("Expected:\n");
+    printf("Harry Potter : 4.000\n");
+    printf("Naruto : 4.990\n");
+    printf("One Piece : 4.990\n");
+    insertSorted(l1, b2);
+    printf("Recieved:\n");
+    printForward(l1);
+    testsPassed += printPassFail(getPrice((Book *) getFromBack(l1)) == 7.99);
+
+    printTestInfo(++numTests, "Testing to make sure int is added properly in the sorted list");
+    printf("Expected: \n7\n42\n54\n");
+    insertSorted(l2, i2);
+    printf("Recieved:\n");
+    printForward(l2);
+    testsPassed += printPassFail(*(int *)getFromFront(l2) == 7);
+
+
+    //Test for getFromFront
+    printTestInfo(++numTests, "Testing to make sure the first element in the list is retrieved.");
+    printf("Expected:\nHarry Potter : 4.000\n");
+    data = getFromFront(l1);
+    printf("Recieved:\n");
+    printBook(data);
+    testsPassed += printPassFail(getPrice((Book *) data) == 4.000);
+
+    printTestInfo(++numTests, "Testing to make sure the first element in the list is retrieved.");
+    printf("Expected:\n7\n");
+    data = getFromFront(l2);
+    printf("Recieved:\n");
+    printInt(data);
+    testsPassed += printPassFail(*(int *)data == 7);
+
+    //Test for getFromBack
+    printTestInfo(++numTests, "Testing to make sure the last element in the list is retrieved.");
+    printf("Expected:\nNaruto : 7.990\n");
+    data = getFromBack(l1);
+    printf("Recieved:\n");
+    printBook(data);
+    testsPassed += printPassFail(getPrice((Book *) data) == 7.990);
+
+    printTestInfo(++numTests, "Testing to make sure the last element in the list is retrieved.");
+    printf("Expected:\n54\n");
+    data = getFromBack(l2);
+    printf("Recieved:\n");
+    printInt(data);
+    testsPassed += printPassFail(*(int *)data == 54);
+
+    //Test to delete a node from the list
+    printTestInfo(++numTests, 
+        "Test to make sure nothing is deleted when trying to delete a Book element that is not present in the list.");
+    printf("Expected:\nMatch not found.\n");
+    printf("Recieved:\n");
+    int result = deleteNodeFromList(l1, b4);
+    testsPassed += printPassFail(result == -1);
+
+    printTestInfo(++numTests, 
+        "Test to make sure required element is deleted from list.");
+    printf("Expected:\n42\n54\n");
+    printf("Recieved:\n");
+    result = deleteNodeFromList(l2, i2);
+    printForward(l2);
+    testsPassed += printPassFail(result == EXIT_SUCCESS);
     
+    //Test to make sure list is completely deleted
+    printTestInfo(++numTests, "Test to make sure linked list containing Book struct is deleted.");
+    printf("Expected: 1\n");
+    deleteList(l1);
+    l1 = NULL;
+    printf("Recieved: %d", l1 == NULL);
+    testsPassed += printPassFail(l1 == NULL);
+
+    //Test to make sure list is completely deleted
+    printTestInfo(++numTests, "Test to make sure linked list containing Book struct is deleted.");
+    printf("Expected: 1\n");
+    deleteList(l2);
+    l2 = NULL;
+    printf("Recieved: %d\n", l2 == NULL);
+    testsPassed += printPassFail(l2 == NULL);
+
+    
+
+
+    free(b4);
+    b4 = NULL;
+
     
 
     printf("%d tests passed out of %d tests.\n", testsPassed, numTests);
