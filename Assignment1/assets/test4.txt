@@ -1,0 +1,11 @@
+N F 1
+S F 2
+E R 20
+W R 2
+W F 3
+N F 3
+N L 9
+N R 11
+W L 5
+W R 8
+W F 15

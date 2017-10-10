@@ -22,7 +22,7 @@ int main(int argc, char ** argv){
     List *south = initializeList(printCar, deleteCar, compareCars);
     int count = 0;
     char trafficDir = 'N';
-    char directions[4] = "NESW";
+    char directions[4] = "WNES";
     
 
     if(argc > 1){
@@ -44,25 +44,11 @@ int main(int argc, char ** argv){
     char dir = '?';
     int arrTime = 0;
     char travelDir = '?';
-    char info[3][10];
-    int i = 0;
 
 
     while(fgets(values, MAX_LEN, inputFile)){
         removeNewLineChar(values);
-        char *token = strtok(values, " ");
-        i = 0;
-        while(token != NULL){
-            strcpy(info[i], token);
-            token = strtok(NULL, " ");
-            i++;
-        }
-
-        dir = info[0][0];
-        travelDir = info[1][0];
-        arrTime = atoi(info[2]);
-        
-        
+        sscanf(values, "%c %c %d", &dir, &travelDir, &arrTime);
         Car *c = createCar(dir, arrTime, travelDir);
 
         switch(dir){
@@ -86,7 +72,6 @@ int main(int argc, char ** argv){
     }
 
     count = 1;
-    i = 0;
     trafficDir = 'Z';
     Car *currentCar = NULL;
     List *currentList = north;
@@ -94,7 +79,9 @@ int main(int argc, char ** argv){
 
     while(!isEmpty(north) || !isEmpty(east) || !isEmpty(west) || !isEmpty(south)){
         
-        index = (count / 14) % 4;
+        if(count % 14 == 1){
+            index = (index + 1) % 4;
+        }
         trafficDir = directions[index];
         
         switch(trafficDir){
@@ -119,9 +106,10 @@ int main(int argc, char ** argv){
             
             if(getArrivalTime(currentCar) <= count){
                 char temp = getTravelDirection(currentCar);
+                setInterTime(currentCar, count);
                 switch(temp){
                     case 'F':
-                        if(count % 14 < 10){
+                        if(count % 14 <= 10){
                             setFinishTime(currentCar, count + 2);
                             count++;
                             printCar(currentCar);
@@ -130,7 +118,7 @@ int main(int argc, char ** argv){
                         }
                         break;
                     case 'R':
-                        if(count % 14 < 10){
+                        if(count % 14 <= 10){
                             setFinishTime(currentCar, count + 1);
                             printCar(currentCar);
                             popFront(currentList);
@@ -138,7 +126,7 @@ int main(int argc, char ** argv){
                         
                         break;
                     case 'L':
-                        if(count % 14 < 11){
+                        if(count % 14 <= 11){
                             setFinishTime(currentCar, (count + 2.5));
                             count += 2;
                             printCar(currentCar);
@@ -159,10 +147,6 @@ int main(int argc, char ** argv){
     deleteList(east);
     deleteList(west);
     deleteList(south);
-    free(north);
-    free(south);
-    free(east);
-    free(west);
 
     fclose(inputFile);
 

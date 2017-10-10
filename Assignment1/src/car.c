@@ -8,6 +8,7 @@ Car* createCar(char dir, int arrTime, char travelDir){
         c->dir = dir;
         c->arrTime = arrTime;
         c->travelDir = travelDir;
+        c->interTime = 0;
         c->finishTime = 0;
 
         return c;
@@ -37,6 +38,11 @@ void setFinishTime(Car *c, double finishTime){
 } 
 
 
+void setInterTime(Car *c, double interTime){
+    c->interTime = interTime;
+}
+
+
 int compareCars(const void *first, const void *second){
     Car *c1 = (Car *) first;
     Car *c2 = (Car *) second;
@@ -52,7 +58,7 @@ int compareCars(const void *first, const void *second){
 void printCar(void *toBePrinted){
     Car *c = (Car *) toBePrinted;
 
-    printf("%c %d %c\t\t%d\t%g\n", c->dir, c->arrTime, c->travelDir, c->arrTime, c->finishTime);
+    printf("%c %d %c\t\t%g\t%g\n", c->dir, c->arrTime, c->travelDir, c->interTime, c->finishTime);
 }
 
 

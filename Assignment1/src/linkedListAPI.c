@@ -67,6 +67,7 @@ void deleteList(List *list){
         free(cur);
         cur = list->head;
     }
+    free(list);
 }
 
 

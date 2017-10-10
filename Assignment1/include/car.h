@@ -6,6 +6,7 @@ typedef struct Car{
     char dir;
     int arrTime;
     char travelDir;
+    double interTime;
     double finishTime;
 } Car;
 
@@ -25,5 +26,7 @@ int compareCars(const void *first, const void *second);
 void printCar(void *toBePrinted);
 
 void deleteCar(void *toBeDeleted);
+
+void setInterTime(Car *c, double interTime);
 
 #endif
