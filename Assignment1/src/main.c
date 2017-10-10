@@ -70,12 +70,22 @@ int main(int argc, char ** argv){
                 break;        
         }
     }
-
+    
     count = 1;
     trafficDir = 'Z';
     Car *currentCar = NULL;
     List *currentList = north;
     int index = 0;
+
+    // Print Information
+    printf("Initial Vehicle Information\t|");
+    printf("Intersection Arrival Time\t|");
+    printf("Completed Time\n");
+    int i = 0;
+    for(i = 0; i <= 85; i++){
+        printf("-");
+    }
+    printf("\n");
 
     while(!isEmpty(north) || !isEmpty(east) || !isEmpty(west) || !isEmpty(south)){
         
