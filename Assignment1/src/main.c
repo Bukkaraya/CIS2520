@@ -76,7 +76,7 @@ int main(int argc, char ** argv){
     Car *currentCar = NULL;
     List *currentList = north;
     int index = 0;
-
+    int secondTimer = 0;
     // Print Information
     printf("Initial Vehicle Information\t|");
     printf("Intersection Arrival Time\t|");
@@ -89,8 +89,9 @@ int main(int argc, char ** argv){
 
     while(!isEmpty(north) || !isEmpty(east) || !isEmpty(west) || !isEmpty(south)){
         
-        if(count % 14 == 1){
+        if(secondTimer % 14 == 0){
             index = (index + 1) % 4;
+            secondTimer = 0;
         }
         trafficDir = directions[index];
         
@@ -119,16 +120,17 @@ int main(int argc, char ** argv){
                 setInterTime(currentCar, count);
                 switch(temp){
                     case 'F':
-                        if(count % 14 <= 10){
+                        if(secondTimer < 10){
                             setFinishTime(currentCar, count + 2);
                             count++;
+                            secondTimer++;
                             printCar(currentCar);
                             popFront(currentList);
                             
                         }
                         break;
                     case 'R':
-                        if(count % 14 <= 10){
+                        if(secondTimer < 10){
                             setFinishTime(currentCar, count + 1);
                             printCar(currentCar);
                             popFront(currentList);
@@ -136,9 +138,10 @@ int main(int argc, char ** argv){
                         
                         break;
                     case 'L':
-                        if(count % 14 <= 11){
+                        if(secondTimer < 11){
                             setFinishTime(currentCar, (count + 2.5));
                             count += 2;
+                            secondTimer += 2;
                             printCar(currentCar);
                             popFront(currentList);
                         }
@@ -151,6 +154,7 @@ int main(int argc, char ** argv){
         }
         
         count++;
+        secondTimer++;
     }
     
     deleteList(north);
