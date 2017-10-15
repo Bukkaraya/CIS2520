@@ -1,0 +1,45 @@
+##########
+
+Name: Narasimha Bukkaraya
+ID: 0951030
+
+##########
+
+THIS PROGRAM USES INSERTSORTED FROM THE LINKED LIST API
+
+The program checks if the user has entered a proper file name.
+If it is an improper file then the user is asked to enter a file name
+until a proper file has been entered
+
+The linked list API is used throughout the main
+and it is used to add the cars to the respective list.
+
+The simulation starts at the first second and the traffic signal
+changes every 14 seconds and continues to run until all cars have
+left the intersection
+
+##########
+
+To run main program:
+- make and change directory to bin and run using ./main <file_location>
+
+To run test program:
+- make and change directory to bin and run using ./testMain
+
+make clean - to clean object and binary files
+
+Testing file for the simulation are located in the assets folder
+
+##########
+
+This program makes use for the insertSorted function from the main linked list api
+
+##########
+
+Only 1 traffic signal can be green at a time making it easy to process a simulation
+The simulation is not real time and we run it after the end of each second
+Cars will not turn right during a red light unlike a real intersection
+If it is yellow a left turn can only be done on the first second of the yellow
+If a car finished with a decimal in it's time then the next car will wait until time is an integer
+
+##########

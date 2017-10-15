@@ -58,7 +58,7 @@ int compareCars(const void *first, const void *second){
 void printCar(void *toBePrinted){
     Car *c = (Car *) toBePrinted;
 
-    printf("%c %d %c\t\t\t\t|%g\t\t\t\t|%g\n", c->dir, c->arrTime, c->travelDir, c->interTime, c->finishTime);
+    printf("%c %c %d\t\t\t\t|%g\t\t\t\t|%g\n", c->dir, c->travelDir, c->arrTime, c->interTime, c->finishTime);
 }
 
 

@@ -21,8 +21,8 @@ all: program test
 program: $(OBJS) $(OBJDIR)main.o
 	$(CC) $(OBJS) $(OBJDIR)main.o -o $(PROGNAME)
 
-test: $(OBJS) $(OBJDIR)testMain.o
-	$(CC) $(OBJS) $(OBJDIR)testMain.o -o $(PROGTEST)
+test:  $(OBJDIR)testMain.o $(OBJDIR)linkedListAPI.o
+	$(CC) $(OBJDIR)linkedListAPI.o $(OBJDIR)testMain.o -o $(PROGTEST)
 
 $(OBJDIR)car.o: $(SRCDIR)car.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $(SRCDIR)car.c -o $(OBJDIR)car.o

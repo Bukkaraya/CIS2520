@@ -18,7 +18,7 @@ List *initializeList(void (*printFunction) (void * toBePrinted), void (*deleteFu
 }
 
 
-Node *initiializeNode(void *data){
+Node *initializeNode(void *data){
     Node *n = malloc(sizeof(Node));
     
     if (n != NULL) {
@@ -32,7 +32,7 @@ Node *initiializeNode(void *data){
 
 
 void insertFront(List *list, void *toBeAdded){
-    Node *n = initiializeNode(toBeAdded);
+    Node *n = initializeNode(toBeAdded);
     if (list->head == NULL && list->tail == NULL) {
         list->head = n;
         list->tail = n;
@@ -46,7 +46,7 @@ void insertFront(List *list, void *toBeAdded){
 
 
 void insertBack(List *list, void *toBeAdded){
-    Node *n = initiializeNode(toBeAdded);
+    Node *n = initializeNode(toBeAdded);
     if (list->head == NULL && list->tail == NULL) {
         list->head = n;
         list->tail = n;
@@ -72,7 +72,7 @@ void deleteList(List *list){
 
 
 void insertSorted(List *list, void *toBeAdded){
-    Node *n = initiializeNode(toBeAdded);
+    Node *n = initializeNode(toBeAdded);
     if (list->head == NULL && list->tail == NULL) {
         list->head = n;
         list->tail = n;
@@ -117,9 +117,11 @@ void *getFromFront(List *list){
 
 void *getFromBack(List *list){
     if(list != NULL){
-        if(list->tail != NULL){
-            return list->head->data;
+        Node *t = list->head;
+        while(t->next != NULL){
+            t = t->next;
         }
+        return t->data;
     }
 
     return NULL;

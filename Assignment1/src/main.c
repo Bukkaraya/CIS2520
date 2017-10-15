@@ -89,7 +89,7 @@ int main(int argc, char ** argv){
 
     while(!isEmpty(north) || !isEmpty(east) || !isEmpty(west) || !isEmpty(south)){
         
-        if(secondTimer % 14 == 0){
+        if(secondTimer % 14 ==  0){
             index = (index + 1) % 4;
             secondTimer = 0;
         }
@@ -111,7 +111,7 @@ int main(int argc, char ** argv){
             default:
                 break;   
         }
-        
+
         if(!isEmpty(currentList)){
             currentCar = getFromFront(currentList);
             
@@ -120,7 +120,7 @@ int main(int argc, char ** argv){
                 setInterTime(currentCar, count);
                 switch(temp){
                     case 'F':
-                        if(secondTimer < 10){
+                        if(secondTimer <= 10){
                             setFinishTime(currentCar, count + 2);
                             count++;
                             secondTimer++;
@@ -130,7 +130,7 @@ int main(int argc, char ** argv){
                         }
                         break;
                     case 'R':
-                        if(secondTimer < 10){
+                        if(secondTimer <= 10){
                             setFinishTime(currentCar, count + 1);
                             printCar(currentCar);
                             popFront(currentList);
@@ -138,7 +138,7 @@ int main(int argc, char ** argv){
                         
                         break;
                     case 'L':
-                        if(secondTimer < 11){
+                        if(secondTimer <= 11){
                             setFinishTime(currentCar, (count + 2.5));
                             count += 2;
                             secondTimer += 2;
@@ -148,6 +148,7 @@ int main(int argc, char ** argv){
                         break;
                     default:
                         printf("Invalid Direction.\n");
+                        popFront(currentList);
                         break;
                 }
             }
