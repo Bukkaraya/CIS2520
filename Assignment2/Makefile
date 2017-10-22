@@ -16,16 +16,20 @@ OBJS = $(OBJDIR)patient.o $(OBJDIR)linkedListAPI.o $(OBJDIR)priorityQueue.o
 
 PROGNAME = $(BINDIR)main
 PROGTEST = $(BINDIR)testMain
+PROGSTARVE = $(BINDIR)starveMain
 
 
-all: program test
+all: program test starveProg
 
 
-program: $(OBJS) $(OBJDIR)main.o
-	$(CC) $(OBJS) $(OBJDIR)main.o -o $(PROGNAME)
+program: $(OBJS) $(OBJDIR)starveMain.o
+	$(CC) $(OBJS) $(OBJDIR)starveMain.o -o $(PROGSTARVE)
 
-test:  $(OBJDIR)testMain.o $(OBJDIR)linkedListAPI.o
+test:  $(OBJDIR)testMain.o $(OBJS)
 	$(CC) $^ -o $(PROGTEST)
+
+starveProg: $(OBJS) $(OBJDIR)main.o
+	$(CC) $(OBJS) $(OBJDIR)main.o -o $(PROGNAME)
 
 $(OBJDIR)patient.o: $(SRCDIR)patient.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
@@ -39,8 +43,11 @@ $(OBJDIR)linkedListAPI.o : $(SRCDIR)linkedListAPI.c
 $(OBJDIR)testMain.o: $(SRCDIR)testMain.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+$(OBJDIR)starveMain.o: $(SRCDIR)starveMain.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
 $(OBJDIR)main.o: $(SRCDIR)main.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@rm $(OBJDIR)*.o $(PROGNAME) $(PROGTEST)
+	@rm $(OBJDIR)*.o $(PROGNAME) $(PROGTEST) $(PROGSTARVE)

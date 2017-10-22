@@ -14,6 +14,10 @@ void runHospitalSimulator(PriorityQueue *q);
 void printHyphens(int num);
 
 
+//Changes to make
+//Write tests
+//Add starvation algorithm in a new file, probably going to change update priorities based on time (buffer time of 15 seconds or so)
+
 
 int main(int argc, char **argv){
     
@@ -146,7 +150,7 @@ int getTreatmentTime(char *sym){
     }else if(strcmp(sym, "TR") == 0){
         return 4;
     }else{
-        printf("Invalid disease.\n");
+        printf("Incurrable disease.\n");
     }
 
     return 0;
@@ -187,11 +191,17 @@ int getPositiveInt(){
 void runHospitalSimulator(PriorityQueue *patients){
     int simTimer = 1;
     int treatmentTime = 0;
+    int starveTimer = 0;
     while(!queueEmpty(patients)){
+        if(starveTimer > 15){
+            increasePriority(patients);
+            starveTimer = 0;
+        }
         Patient *curPat = pop(patients);
         treatmentTime = getTreatmentTime(getSymptom(curPat));
         setFinishTime(curPat, simTimer + treatmentTime);
         simTimer += treatmentTime + 1;
+        starveTimer += treatmentTime +1;
     }
 }
 

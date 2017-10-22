@@ -158,9 +158,9 @@ void printBackwards(List *list){
 }
 
 
-int deleteNodeFromList(List *list, void *toBeDeleted){
+void *deleteNodeFromList(List *list, void *toBeDeleted){
     if(list->head == NULL || toBeDeleted == NULL){
-        return EXIT_FAILURE;
+        return NULL;
     }
 
     Node *cur = list->head;
@@ -183,14 +183,16 @@ int deleteNodeFromList(List *list, void *toBeDeleted){
                 cur->previous->next = cur->next;
             }
             
+            void *data = cur->data;
             cur->data = NULL;
             free(cur);
-            return EXIT_SUCCESS;
+
+            return data;
         }
         cur = cur->next;
     }
 
-    return -1;
+    return NULL;
 
 }
 
@@ -199,4 +201,25 @@ int isEmpty(List *list){
         return 1;
     }
     return 0;
+}
+
+
+void changePriority(List *list){
+    
+    Node *cur = list->head;
+    int count = 0;
+    int curPrior = 1;
+    while(cur != NULL){
+        if(curPrior != cur->priority){
+            count = 0;
+            curPrior = cur->priority;
+        }
+        if(cur->priority >= 3 && count < 3){
+            int tempPrior = cur->priority - 1;
+            void *data = deleteNodeFromList(list, cur->data);
+            insertSorted(list, data, tempPrior);
+            count++;
+        }
+        cur = cur->next;
+    }
 }

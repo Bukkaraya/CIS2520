@@ -4,20 +4,22 @@
 #include "priorityQueue.h"
 
 
-
 PriorityQueue *createQueue(void (*printFunction) (void * toBePrinted),
     void (*deleteFunction)(void *toBeDeleted), 
     int (*compareFunction)(const void *first, const void *second)){
-    
+
     PriorityQueue *pq = malloc(sizeof(PriorityQueue));
     pq->list = initializeList(printFunction, deleteFunction, compareFunction);
     pq->count = 0;
-    
+
     return pq;
 }
 
 
 void insert(PriorityQueue *pq, void *data, int priority){
+    if(pq == NULL){
+        return;
+    }
     insertSorted(pq->list, data, priority);
     pq->count++;
 }
@@ -32,14 +34,21 @@ int queueEmpty(PriorityQueue *pq){
 }
 
 
-void pop(PriorityQueue *pq){
+void *pop(PriorityQueue *pq){
+    if(pq == NULL){
+        return NULL;
+    }
+
     if(!queueEmpty(pq)){
-        void *last = getFromBack(pq->list);
-        int result = deleteNodeFromList(pq->list, last);
-        if(result == EXIT_SUCCESS){
+        void *last = peek(pq);
+        void *data = deleteNodeFromList(pq->list, last);
+        if(data != NULL){
             pq->count--;
         }
+        return data;
     }
+
+    return NULL;
 }
 
 
@@ -60,4 +69,13 @@ void destroyQueue(PriorityQueue *pq){
     }
 }
 
+
+int getCount(PriorityQueue *pq){
+    return pq->count;
+}
+
+
+void increasePriority(PriorityQueue *pq){
+    changePriority(pq->list);
+}
 

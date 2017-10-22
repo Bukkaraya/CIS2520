@@ -1,0 +1,67 @@
+#####################
+
+Name: Narasimha Bukkaraya
+ID: 0951030
+
+#####################
+
+The program checks if the user has entered the proper files name.
+If file does not exist then the user is prompted to enter a file name until 
+a proper file name has been entered.
+
+The PriorityQueue is a extension on the linked list API used in the previous 
+assignment. All the priority queue functions utilize only the list API
+functions to do the necassary operations.
+
+A patient header file is created and is used to store information regarding
+the patients.
+
+The main uses two data structures one is a PriorityQueue and another one is a
+linkedList. The priority queue is used to process the data from the user
+and the linked list is used to display the final output to the user in the
+required format.
+
+In the main program loop pressing 1 will prompt the user to enter another patient.
+Pressing 2 will run the simulation, after the simulation finished the user can enter anything and press ENTER to exit the program.
+Pressing 3 in the main loop will exit the program without running the simulation.
+
+
+The starvation algorithm is implemented in a different c file
+This is so that the main simulation can be run first to ensure it works properly
+
+#####################
+
+To run the main program:
+- make and change directory to bin and run using ./main <file_name>
+
+To run test program:
+- make and change directory to bin and run using ./testMain
+
+To run the program with the starvation algorithm:
+- make and change directory to bin and run using ./starveMain <file_name>
+
+make clean - to clean object and binary file
+
+Testing files for the simulation are located in the assets folder
+
+#####################
+
+Stravation algorithm:
+
+Every 15 seconds in the simulation the priority of 3 patients in for all patients with
+priority greater than 2 is decreased by 1.
+If a patient with priority 4 waits for 15 seconds then his priority will now decrease to 3.
+This occurs for 3 patients in all priorities greater than 2.
+This ensures that patients with low prioties don't have to wait too long in the line
+
+#####################
+
+All the patients are assumed to arrive a the same time, that is, a time of 0.
+The simulation is not real time and it starts at time 1 and then continues
+until all patients have been treated by the doctor.
+After a patient has been treated the doctor takes 1 second to do paperwork
+before he can deal with the next one.
+The patient id can have a maximum length of 99 characters
+
+#####################
+

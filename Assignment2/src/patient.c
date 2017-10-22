@@ -3,6 +3,7 @@
 #include <string.h>
 #include "patient.h"
 
+
 Patient *createPatient(char *pid, char *sym, int patientPriority){
     Patient *p = malloc(sizeof(Patient));
     strcpy(p->pid, pid);
