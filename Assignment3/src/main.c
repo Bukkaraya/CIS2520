@@ -9,8 +9,7 @@ void removeNewLine(char* str);
 int strEmpty(char* str);
 void printHyphens(int num);
 int getPositiveInt();
-int hashFunction(size_t size, int key);
-int getKey(char *word);
+int hashFunction(size_t size, char *key);
 void printFunction(void *data);
 void deleteData(void *data);
 
@@ -41,7 +40,7 @@ int main(int argc, char **argv){
         removeNewLine(fileValues);
         word = malloc((sizeof(char) * strlen(fileValues)) + 1);
         strncpy(word, fileValues, strlen(fileValues) + 1);
-        insertData(wordsTable, getKey(word), word);
+        insertData(wordsTable, word, word);
     }
 
     //Closing the file
@@ -62,7 +61,7 @@ int main(int argc, char **argv){
 
     while(fgets(fileValues, MAX_LEN, inputFile)){
         removeNewLine(fileValues);
-        char* wordFound = lookUpData(wordsTable, getKey(fileValues));
+        char* wordFound = lookUpData(wordsTable, fileValues);
         if(wordFound == NULL){
             printf("%s was not found in the dictionary.\n", fileValues);
             wordsNotFound++;
@@ -126,19 +125,16 @@ void printHyphens(int num){
 }
 
 
-int hashFunction(size_t size, int key){
-    return ((key * 31) + (key * 7) + key) % size;
-}
-
-
-int getKey(char *word){
+int hashFunction(size_t size, char *key){
     int i = 0;
-    int key = 0;
-    for(i = 0; i < strlen(word); i++){
-        key += word[i] * i;
+    int hash = 0;
+    for(i = 0; i < strlen(key); i++){
+        hash += key[i] * i;
     }
-    key *= strlen(word);
-    return key % 10000;
+    
+    hash *= strlen(key);
+    
+    return hash % size;
 }
 
 

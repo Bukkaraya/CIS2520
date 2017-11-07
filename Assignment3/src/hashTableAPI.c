@@ -3,7 +3,7 @@
 #include <string.h>
 #include "hashTableAPI.h"
 
-HTable *createTable(size_t size, int (*hashFunction) (size_t tableSize, int key), void (*destroyData) (void *data), void (*printNode) (void *data)){
+HTable *createTable(size_t size, int (*hashFunction) (size_t tableSize, char *key), void (*destroyData) (void *data), void (*printNode) (void *data)){
     HTable *hashTable = malloc(sizeof(HTable));
     hashTable->size = size;
     hashTable->table = malloc(sizeof(Node) * size);
@@ -21,9 +21,10 @@ HTable *createTable(size_t size, int (*hashFunction) (size_t tableSize, int key)
 }
 
 
-Node *createNode(int key, void*data){
+Node *createNode(char *key, void*data){
     Node *node = malloc(sizeof(Node));
-    node->key = key;
+    node->key = malloc(sizeof(char) * strlen(key) + 1);
+    strncpy(node->key, key, strlen(key) + 1);
     node->next = NULL;
     node->data = data;
 
@@ -40,6 +41,8 @@ void destroyTable(HTable *hashTable){
             while(n != NULL){
                 temp = n;
                 hashTable->destroyData(temp->data);
+                free(n->key);
+                n->key = NULL;
                 n = n->next;
                 free(temp);
             }
@@ -52,7 +55,7 @@ void destroyTable(HTable *hashTable){
 }
 
 
-void insertData(HTable *hashTable, int key, void *data){
+void insertData(HTable *hashTable, char *key, void *data){
     if(hashTable){
         Node *newNode = createNode(key, data);
         int hashNum = hashTable->hashFunction(hashTable->size, key);
@@ -72,14 +75,14 @@ void insertData(HTable *hashTable, int key, void *data){
 }
 
 
-void *lookUpData(HTable *hashTable, int key){
+void *lookUpData(HTable *hashTable, char *key){
     if(hashTable){
         int hashNum = hashTable->hashFunction(hashTable->size, key);
         Node *head = hashTable->table[hashNum];
         if(head != NULL){
             Node *cur = head;
             while(cur != NULL){
-                if(cur->key == key){
+                if(strcmp(cur->key, key) == 0){
                     break;
                 }
                 cur = cur->next;
@@ -92,14 +95,14 @@ void *lookUpData(HTable *hashTable, int key){
 }
 
 
-void removeData(HTable *hashTable, int key){
+void removeData(HTable *hashTable, char *key){
     if(hashTable){
         int hashNum = hashTable->hashFunction(hashTable->size, key);
         Node *head = hashTable->table[hashNum];
         if(head != NULL){
             Node *cur = head;
             while(cur != NULL){
-                if(cur->key == key){
+                if(strcmp(cur->key, key) == 0){
                     break;
                 }
                 cur = cur->next;
@@ -108,6 +111,7 @@ void removeData(HTable *hashTable, int key){
                 Node *temp = cur;
                 cur = cur->next;
                 hashTable->destroyData(temp->data);
+                free(temp->key);
                 free(temp);
             }
         }
@@ -121,7 +125,7 @@ void printTable(HTable *hashTable){
         Node *head = hashTable->table[i];
         Node *cur = head;
         while(cur != NULL){
-            printf("Key: %d - ", cur->key);
+            printf("Key: %s - ", cur->key);
             hashTable->printNode(cur->data);
             cur = cur->next;
         }
