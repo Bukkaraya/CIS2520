@@ -12,6 +12,9 @@ int getPositiveInt();
 int hashFunction(size_t size, char *key);
 void printFunction(void *data);
 void deleteData(void *data);
+void addWordToDict(HTable *hashTable);
+void removeWordFromDict(HTable *hashTable);
+void checkFile(HTable *hashTable);
 
 
 int main(int argc, char **argv){
@@ -20,12 +23,14 @@ int main(int argc, char **argv){
     char fileValues[MAX_LEN];
     char *word = NULL;
     HTable *wordsTable = createTable(TABLE_SIZE, hashFunction, deleteData, printFunction);
+    int userInput = 0;
+
 
     if(argc > 1){
         inputFile = fopen(argv[1], "r");
     }
 
-    //Prompt User
+    //If file file cannot be opened prompt the user
     while(inputFile == NULL){
         printf("Invalid file name, please try again.\n");
         fgets(fileName, MAX_LEN, stdin);
@@ -47,36 +52,35 @@ int main(int argc, char **argv){
     fclose(inputFile);
     inputFile = NULL;
 
-    printTable(wordsTable);
-
-    while(inputFile == NULL){
-        printf("Enter file you want to check with.\n");
-        fgets(fileName, MAX_LEN, stdin);
-        removeNewLine(fileName);
-        inputFile = fopen(fileName, "r");
-    }
-
-    int wordsNotFound = 0;
-    int wordsFound = 0;
-
-    while(fgets(fileValues, MAX_LEN, inputFile)){
-        removeNewLine(fileValues);
-        char* wordFound = lookUpData(wordsTable, fileValues);
-        if(wordFound == NULL){
-            printf("%s was not found in the dictionary.\n", fileValues);
-            wordsNotFound++;
-        }else{
-            wordsFound++;
+    //Start Main Loop
+    while(userInput != 5){
+        //Add error checking for this part
+        printf("Please enter your choice:\n");
+        scanf("%d", &userInput);
+        getchar();
+        switch(userInput){
+            case 1:
+                addWordToDict(wordsTable);
+                break;
+            case 2:
+                removeWordFromDict(wordsTable);
+                break;
+            case 3:
+                checkFile(wordsTable);
+                break;
+            case 4:
+                printTable(wordsTable);
+                break;
+            case 5:
+                printf("Goodbye!\n");
+                break;
+            default:
+                printf("Invalid Input.");
+                break;
         }
     }
 
-    printf("Summary\n");
-    printf("Correctly Spelt Words: %d\n", wordsFound);
-    printf("Incorrectly Spelt Words: %d\n", wordsNotFound);
-
     destroyTable(wordsTable);
-    fclose(inputFile);
-    inputFile = NULL;
 
     return 0;
 }
@@ -131,9 +135,9 @@ int hashFunction(size_t size, char *key){
     for(i = 0; i < strlen(key); i++){
         hash += key[i] * i;
     }
-    
+
     hash *= strlen(key);
-    
+
     return hash % size;
 }
 
@@ -151,4 +155,76 @@ void deleteData(void *data){
         free(data);
         data = NULL;
     }
+}
+
+
+void addWordToDict(HTable *hashTable){
+    char temp[MAX_LEN];
+    char *value = NULL;
+
+    printf("Please enter the word you want to add:\n");
+    fgets(temp, MAX_LEN, stdin);
+    removeNewLine(temp);
+
+    value = malloc(sizeof(char) * strlen(temp) + 1);
+    strncpy(value, temp, strlen(temp) + 1);
+    insertData(hashTable, value, value);
+
+    printf("The word %s has been added to the dictionary.\n", temp);
+}
+
+
+void removeWordFromDict(HTable *hashTable){
+    char temp[MAX_LEN];
+
+    printf("Please enter the word you want to remove:\n");
+    fgets(temp, MAX_LEN, stdin);
+    removeNewLine(temp);
+
+    void *data = lookUpData(hashTable, temp);
+    if(data == NULL){
+        printf("The given word does not exists in the dictionary.\n");
+    }else{
+        removeData(hashTable, temp);
+        printf("%s has been removed from the dictionary.\n", temp);
+    }
+}
+
+
+void checkFile(HTable *hashTable){
+    char fileName[MAX_LEN];
+    char fileValues[MAX_LEN];
+    int wordsNotFound = 0;
+    int wordsFound = 0;
+    FILE* checkFile = NULL;
+
+    while(checkFile == NULL){
+        printf("Please enter a file name to be processed by Spell Check:\n");
+        fgets(fileName, MAX_LEN, stdin);
+        removeNewLine(fileName);
+        checkFile = fopen(fileName, "r");
+        if(checkFile == NULL){
+            printf("Invalid file name, please try again.\n");
+        }
+    }
+
+    printf("File processed by Spell Check %s\n", fileName);
+
+    while(fgets(fileValues, MAX_LEN, checkFile)){
+        removeNewLine(fileValues);
+        char* wordFound = lookUpData(hashTable, fileValues);
+        if(wordFound == NULL){
+            printf("%s was not found in the dictionary.\n", fileValues);
+            wordsNotFound++;
+        }else{
+            wordsFound++;
+        }
+    }
+
+    printf("Summary\n");
+    printf("Correctly Spelt Words: %d\n", wordsFound);
+    printf("Incorrectly Spelt Words: %d\n", wordsNotFound);
+
+    fclose(checkFile);
+    checkFile = NULL;
 }

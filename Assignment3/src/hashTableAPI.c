@@ -100,6 +100,13 @@ void removeData(HTable *hashTable, char *key){
         int hashNum = hashTable->hashFunction(hashTable->size, key);
         Node *head = hashTable->table[hashNum];
         if(head != NULL){
+            if(head->next == NULL){
+                hashTable->destroyData(head->data);
+                free(head->key);
+                free(head);
+                head = NULL;
+                hashTable->table[hashNum] = NULL;
+            }
             Node *cur = head;
             while(cur != NULL){
                 if(strcmp(cur->key, key) == 0){
@@ -125,7 +132,7 @@ void printTable(HTable *hashTable){
         Node *head = hashTable->table[i];
         Node *cur = head;
         while(cur != NULL){
-            printf("Key: %s - ", cur->key);
+            printf("%d : %s : ", hashTable->hashFunction(hashTable->size, cur->key), cur->key);
             hashTable->printNode(cur->data);
             cur = cur->next;
         }
