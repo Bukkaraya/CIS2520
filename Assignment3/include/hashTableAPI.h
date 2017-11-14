@@ -81,7 +81,10 @@ void removeData(HTable *hashTable, char *key);
 **/
 void *lookUpData(HTable *hashTable, char *key);
 
-
+/**Prints all the key value pairs in the hash table
+ *@pre The hash table exists and has memory allocated to it
+*@param hashTable pointer to the hash table containing data nodes
+**/
 void printTable(HTable *hashTable);
 
 

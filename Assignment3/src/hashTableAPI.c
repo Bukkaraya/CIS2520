@@ -6,13 +6,14 @@
 HTable *createTable(size_t size, int (*hashFunction) (size_t tableSize, char *key), void (*destroyData) (void *data), void (*printNode) (void *data)){
     HTable *hashTable = malloc(sizeof(HTable));
     hashTable->size = size;
-    hashTable->table = malloc(sizeof(Node) * size);
-    
+    hashTable->table = malloc(sizeof(Node*) * size);
+
+    //Initialize all values of hash table to NULL
     int i = 0;
     for(i = 0; i < size; i++){
         hashTable->table[i] = NULL;
     }
-    
+
     hashTable->destroyData = destroyData;
     hashTable->hashFunction  = hashFunction;
     hashTable->printNode = printNode;
@@ -23,8 +24,10 @@ HTable *createTable(size_t size, int (*hashFunction) (size_t tableSize, char *ke
 
 Node *createNode(char *key, void*data){
     Node *node = malloc(sizeof(Node));
+
     node->key = malloc(sizeof(char) * strlen(key) + 1);
     strncpy(node->key, key, strlen(key) + 1);
+
     node->next = NULL;
     node->data = data;
 
@@ -87,7 +90,9 @@ void *lookUpData(HTable *hashTable, char *key){
                 }
                 cur = cur->next;
             }
-            return cur->data;
+            if(cur != NULL){
+                return cur->data;
+            }
         }
     }
 

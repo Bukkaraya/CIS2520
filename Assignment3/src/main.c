@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "hashTableAPI.h"
 #define MAX_LEN 100
-#define TABLE_SIZE 200
+#define TABLE_SIZE 300
 
 void removeNewLine(char* str);
 int strEmpty(char* str);
@@ -15,6 +16,7 @@ void deleteData(void *data);
 void addWordToDict(HTable *hashTable);
 void removeWordFromDict(HTable *hashTable);
 void checkFile(HTable *hashTable);
+void convertToLower(char *str);
 
 
 int main(int argc, char **argv){
@@ -43,6 +45,8 @@ int main(int argc, char **argv){
     //Get data from file and store in data structures
     while(fgets(fileValues, MAX_LEN, inputFile)){
         removeNewLine(fileValues);
+        convertToLower(fileValues);
+
         word = malloc((sizeof(char) * strlen(fileValues)) + 1);
         strncpy(word, fileValues, strlen(fileValues) + 1);
         insertData(wordsTable, word, word);
@@ -54,10 +58,10 @@ int main(int argc, char **argv){
 
     //Start Main Loop
     while(userInput != 5){
-        //Add error checking for this part
         printf("Please enter your choice:\n");
-        scanf("%d", &userInput);
-        getchar();
+        //Add error checking for this part
+        userInput = getPositiveInt();
+
         switch(userInput){
             case 1:
                 addWordToDict(wordsTable);
@@ -75,7 +79,7 @@ int main(int argc, char **argv){
                 printf("Goodbye!\n");
                 break;
             default:
-                printf("Invalid Input.");
+                printf("Invalid. Please try again.\n");
                 break;
         }
     }
@@ -112,7 +116,7 @@ int getPositiveInt(){
         removeNewLine(userStr);
         userInt = atoi(userStr);
         if(userInt <= 0){
-            printf("Invalid. Please try again.");
+            printf("Invalid. Please try again.\n");
         }
     }
 
@@ -165,6 +169,7 @@ void addWordToDict(HTable *hashTable){
     printf("Please enter the word you want to add:\n");
     fgets(temp, MAX_LEN, stdin);
     removeNewLine(temp);
+    convertToLower(temp);
 
     value = malloc(sizeof(char) * strlen(temp) + 1);
     strncpy(value, temp, strlen(temp) + 1);
@@ -180,6 +185,7 @@ void removeWordFromDict(HTable *hashTable){
     printf("Please enter the word you want to remove:\n");
     fgets(temp, MAX_LEN, stdin);
     removeNewLine(temp);
+    convertToLower(temp);
 
     void *data = lookUpData(hashTable, temp);
     if(data == NULL){
@@ -212,6 +218,8 @@ void checkFile(HTable *hashTable){
 
     while(fgets(fileValues, MAX_LEN, checkFile)){
         removeNewLine(fileValues);
+        convertToLower(fileValues);
+
         char* wordFound = lookUpData(hashTable, fileValues);
         if(wordFound == NULL){
             printf("%s was not found in the dictionary.\n", fileValues);
@@ -227,4 +235,12 @@ void checkFile(HTable *hashTable){
 
     fclose(checkFile);
     checkFile = NULL;
+}
+
+
+void convertToLower(char *str){
+    int i = 0;
+    for(i = 0; i < strlen(str); i++){
+        str[i] = tolower(str[i]);
+    }
 }
