@@ -2,3 +2,13 @@ hello
 Hello, it is a fine day.
 car
 Cars are too expensive
+batman
+You can become batman
+Happy
+Something to be Happy about
+Sad
+Not today
+Weather
+It won’t rain I promise.
+Sports
+The local team played again

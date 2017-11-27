@@ -22,6 +22,10 @@ int getOccurences(Rule* rule);
 
 double getLearningRate(Rule* rule);
 
+void increaseOccurences(Rule* rule);
+
+void setUserRating(Rule* rule, double newRating);
+
 void setSystemRating(Rule* rule, int option);
 
 void printRule(void* data);

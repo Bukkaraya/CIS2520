@@ -65,6 +65,11 @@ int getOccurences(Rule* rule){
 }
 
 
+void setUserRating(Rule* rule, double newRating){
+    rule->userRating = newRating;
+}
+
+
 void setSystemRating(Rule* rule, int option){
     double temp = 0.0;
 
@@ -83,6 +88,12 @@ void setSystemRating(Rule* rule, int option){
     }
 }
 
+
+void increaseOccurences(Rule* rule){
+    rule->occurences++;
+}
+
+
 int compareRules(const void* a, const void* b){
     Rule *r1 = (Rule *) a;
     Rule *r2 = (Rule *) b;
@@ -100,7 +111,7 @@ int compareRules(const void* a, const void* b){
 void printRule(void* data){
     Rule *r = (Rule *) data;
 
-    printf("%s\tRating: %lf\tSystem: %lf\tOccurences: %d", r->keyword, r->userRating, r->systemRating, r->occurences);
+    printf("%s\t\tRating: %g\tSystem: %g\tOccurences: %d\n", r->keyword, r->userRating, r->systemRating, r->occurences);
 }
 
 
