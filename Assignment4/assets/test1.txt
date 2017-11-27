@@ -1,0 +1,4 @@
+hello
+Hello, it is a fine day.
+car
+Cars are too expensive
