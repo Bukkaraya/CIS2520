@@ -1,0 +1,59 @@
+#####################
+
+Name: Narasimha Bukkaraya
+ID: 0951030
+
+#####################
+
+The program checks if the user has entered the proper files name.
+If file does not exist then the user is prompted to enter a file name until 
+a proper file name has been entered.
+
+The hash table created stores all the words, the key is type char* and the data type is void*.
+The size of the hash table used is 300, hence it has 300 indices.
+The hash table has been tested with data type of char* and int* in the testing file.
+The word is converted to all lowercase before being entered into the dictionary.
+Operations are performed based on the user input.
+
+
+In the main program loop pressing 
+1) Will prompt the user to add a word in the dictionary
+2) Will prompt the user to remove a word in the dictionary
+3) Will prompt the user to provide a file to spell check
+4) Will print out all the words in the dictionary
+5) Will exit the program
+
+
+#####################
+
+To run the main program:
+- make and change directory to bin and run using ./main <file_name>
+
+To run test program:
+- make and change directory to bin and run using ./testMain
+
+make clean - to clean object and binary file
+
+Testing files for the simulation are located in the assets folder
+
+#####################
+
+Hashing algorithm and Collision Strategy:
+
+Since each character has an ASCII integer value, the ASCII value of each character is multiplied with the
+position of the character in the string. Then the total value is multiplied with the length of the string. This ensures
+different hash values are generated for anagrams. E.g: 'tar' and 'rat' have different hash values.
+The modulo operator is used to return a value that can be used as an index for the hash table.
+
+A linked list is used to resolve collisions. All the keys that have the same hash value are stored in a linked list.
+If key ends up generating the same hash value then, it is added to the end of the list present at the hash table index.
+
+#####################
+
+All words stored in the dictionary are lowercase and any input taken from the user will be converted to all lowercase before
+checking if the given word is in the dictionary.
+
+The maximum character length of a word in a dictionary is 100 characters.
+
+#####################
+

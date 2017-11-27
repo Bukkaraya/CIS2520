@@ -137,7 +137,7 @@ int hashFunction(size_t size, char *key){
     int i = 0;
     int hash = 0;
     for(i = 0; i < strlen(key); i++){
-        hash += key[i] * i;
+        hash += key[i] * (i+1);
     }
 
     hash *= strlen(key);
