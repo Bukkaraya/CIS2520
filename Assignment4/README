@@ -1,0 +1,56 @@
+#####################
+
+Name: Narasimha Bukkaraya
+ID: 0951030
+
+#####################
+
+The program checks if the user has entered the proper files name.
+If file does not exist then the user is prompted to enter a file name until 
+a proper file name has been entered.
+
+The program is a very basic version of Siri or google home. Rule will be read from a file.
+Rules can also be added and removed by the user. The program will ask the user what they
+want to talk about and will provide a right answer if it finds a match in the binary tree
+The binary tree is used to store all the rules and most of the binary tree api functions in this assignment
+have been implemented recursively
+
+
+
+In the main program loop pressing 
+1) Will prompt the user to add a rule
+2) Will prompt the user to remove a rule
+3) Will print all the rules present
+4) Will prompt the user to modify an existing rule
+5) Will discuss anything with the user
+9) Will exit the program
+
+
+#####################
+
+To run the main program:
+- make and change directory to bin and run using ./main <file_name>
+
+To run test program:
+- make and change directory to bin and run using ./testMain
+
+make clean - to clean object and binary file
+
+Testing files for the simulation are located in the assets folder
+
+#####################
+
+Personalization:
+
+The system rating rule has not been modified, but the maximum system rating has been capped to 0.98 and the minimum
+rating for a rule has been capped to 0.10. This is because the rule will increase extremely slowly at 0 and will
+decrease extremely slowly at a value of 1
+
+
+#####################
+
+All the keywords for the rules are stored in lowercase.
+The maximum length for the responses is 399 characters long
+
+#####################
+

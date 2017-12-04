@@ -159,7 +159,6 @@ TreeNode* deleteNode(TreeNode* root, TreeDataPtr data, DeleteFunc del, CompareFu
         if(hasTwoChildren(root)){
             temp = findMinimum(root->right);
             removedData = root->data;
-            del(removedData);
 
             root->data = temp->data;
             root->right = deleteNode(root->right, temp->data, del, compare);
@@ -173,7 +172,6 @@ TreeNode* deleteNode(TreeNode* root, TreeDataPtr data, DeleteFunc del, CompareFu
         }
     }
 
-    free(temp);
     return root;
 }
 

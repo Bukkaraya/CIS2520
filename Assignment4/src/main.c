@@ -13,6 +13,7 @@ void convertToLower(char *str);
 void addNewRule(Tree* theTree);
 void modifyRule(Tree* theTree);
 void discuss(Tree* theTree);
+void removeRule(Tree* theTree);
 
 
 int main(int argc, char** argv){
@@ -59,6 +60,7 @@ int main(int argc, char** argv){
                 addNewRule(wordTree);
                 break;
             case 2:
+                removeRule(wordTree);
                 break;
             case 3:
                 displayRules(wordTree);
@@ -230,5 +232,34 @@ void discuss(Tree* theTree){
     }else{
         printf("Personal Assistant: Sorry, I don't have any information for your input.\n");
     }
+
+}
+
+
+void removeRule(Tree* theTree){
+    char keyword[MAX_LEN];
+
+    printf("Please enter the name of the rule you want to remove:\n");
+    fgets(keyword, MAX_LEN, stdin);
+    removeNewLine(keyword);
+    convertToLower(keyword);
+
+
+    Rule* dummyRule = createRule(keyword, "response", 0.5);
+
+    void* data = findInTree(theTree, dummyRule);
+
+    deleteRule(dummyRule);
+
+    if(data != NULL){
+        Rule* matchedRule = (Rule *) data;
+        printf("Rule (%s) has been found.\n", keyword);
+        removeFromTree(theTree, matchedRule);
+
+        printf("The rule has been removed.\n");
+    }else{
+        printf("Rule with keyword - %s - not found.\n", keyword);
+    }
+
 
 }
